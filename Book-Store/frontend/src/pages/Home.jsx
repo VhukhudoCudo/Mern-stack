@@ -10,7 +10,7 @@ const Home = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState('table');
-  const currentUserId = localStorage.getItem('userId'); // use actual userId
+  const currentUserId = localStorage.getItem('userId');
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -27,7 +27,7 @@ const Home = () => {
     };
 
     fetchBooks();
-  }, [currentUserId]); // refetch whenever userId changes
+  }, [currentUserId]); // fetch on mount or userId change
 
   return (
     <div className='p-4'>

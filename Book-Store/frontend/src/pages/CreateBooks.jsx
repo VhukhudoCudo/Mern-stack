@@ -14,12 +14,12 @@ const CreateBooks = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = () => {
-    const currentUserId = localStorage.getItem('userId'); // use actual userId
+    const currentUserId = localStorage.getItem('userId'); // use correct userId
     const data = {
       title,
       author,
       publishYear,
-      owner: currentUserId, // assign book to current user
+      owner: currentUserId, // send to backend
     };
     setLoading(true);
     axios
@@ -27,7 +27,7 @@ const CreateBooks = () => {
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book Created successfully', { variant: 'success' });
-        navigate('/'); // navigate to Home to see updated books
+        navigate('/'); // go to Home to see the book
       })
       .catch((error) => {
         setLoading(false);

@@ -30,7 +30,7 @@ router.post("/", async (request, response) => {
       console.log(error.message);
       response.status(500).send({ message: error.message });
     }
-  });
+});
 
 //Route for Get All Books from database
 router.get('/', async (request, response) => {
