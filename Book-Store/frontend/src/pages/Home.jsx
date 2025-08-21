@@ -16,7 +16,9 @@ const Home = () => {
     axios
       .get('https://book-store-backend-r1ee.onrender.com/books')
       .then((response) => {
-        setBooks(response.data.data); // all books shown
+        const currentUserId = localStorage.getItem('userId');
+        const userBooks = response.data.data.filter(book => book.owner === currentUserId);
+        setBooks(userBooks);
         setLoading(false);
       })
       .catch((error) => {
