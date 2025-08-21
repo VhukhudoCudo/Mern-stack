@@ -8,9 +8,7 @@ const ShowBook = () => {
   const [book, setBook] = useState({});
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
-
-  // Simulate current user ID (replace with actual user ID if you have auth)
-  const currentUserId = localStorage.getItem('userId') || 'default-user';
+  const currentUserId = localStorage.getItem('userId'); // use actual userId
 
   useEffect(() => {
     setLoading(true);
@@ -18,7 +16,6 @@ const ShowBook = () => {
       .get(`https://book-store-backend-r1ee.onrender.com/books/${id}`)
       .then((response) => {
         const fetchedBook = response.data;
-        // Only set the book if it belongs to the current user
         if (fetchedBook.owner === currentUserId) {
           setBook(fetchedBook);
         } else {

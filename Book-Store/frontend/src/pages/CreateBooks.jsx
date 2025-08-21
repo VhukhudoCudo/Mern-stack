@@ -13,15 +13,13 @@ const CreateBooks = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  // Simulate current user ID (replace with actual user ID if you have auth)
-  const currentUserId = localStorage.getItem('userId') || 'default-user';
-
   const handleSaveBook = () => {
+    const currentUserId = localStorage.getItem('userId'); // use actual userId
     const data = {
       title,
       author,
       publishYear,
-      owner: currentUserId, // Added owner field
+      owner: currentUserId, // assign book to current user
     };
     setLoading(true);
     axios
@@ -29,7 +27,7 @@ const CreateBooks = () => {
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book Created successfully', { variant: 'success' });
-        navigate('/');
+        navigate('/'); // navigate to Home to see updated books
       })
       .catch((error) => {
         setLoading(false);
@@ -59,7 +57,7 @@ const CreateBooks = () => {
             type='text'
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2  w-full '
+            className='border-2 border-gray-500 px-4 py-2 w-full'
           />
         </div>
         <div className='my-4'>
@@ -68,7 +66,7 @@ const CreateBooks = () => {
             type='number'
             value={publishYear}
             onChange={(e) => setPublishYear(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2  w-full '
+            className='border-2 border-gray-500 px-4 py-2 w-full'
           />
         </div>
         <button className='p-2 bg-sky-300 m-8' onClick={handleSaveBook}>

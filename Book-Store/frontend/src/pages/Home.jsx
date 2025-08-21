@@ -10,26 +10,24 @@ const Home = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState('table');
-
-  // Simulate current user ID (replace with actual user ID if you have auth)
-  const currentUserId = localStorage.getItem('userId') || 'default-user';
+  const currentUserId = localStorage.getItem('userId'); // use actual userId
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get('https://book-store-backend-r1ee.onrender.com/books')
-      .then((response) => {
+    const fetchBooks = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get('https://book-store-backend-r1ee.onrender.com/books');
         const allBooks = response.data.data;
-        // Filter books to only include those belonging to the current user
         const userBooks = allBooks.filter(book => book.owner === currentUserId);
         setBooks(userBooks);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, [currentUserId]);
+      } catch (err) {
+        console.log(err);
+      }
+      setLoading(false);
+    };
+
+    fetchBooks();
+  }, [currentUserId]); // refetch whenever userId changes
 
   return (
     <div className='p-4'>
