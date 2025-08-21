@@ -5,7 +5,7 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 
-// Ensure every user has a unique userId
+// Assign a unique user ID if none exists
 if (!localStorage.getItem('userId')) {
   const uniqueId = 'user-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
   localStorage.setItem('userId', uniqueId);

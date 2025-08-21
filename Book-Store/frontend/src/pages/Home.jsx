@@ -10,24 +10,22 @@ const Home = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState('table');
-  const currentUserId = localStorage.getItem('userId');
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get('https://book-store-backend-r1ee.onrender.com/books');
-        const allBooks = response.data.data;
-        const userBooks = allBooks.filter(book => book.owner === currentUserId);
+    setLoading(true);
+    axios
+      .get('https://book-store-backend-r1ee.onrender.com/books')
+      .then((response) => {
+        const currentUserId = localStorage.getItem('userId');
+        const userBooks = response.data.data.filter(book => book.owner === currentUserId);
         setBooks(userBooks);
-      } catch (err) {
-        console.log(err);
-      }
-      setLoading(false);
-    };
-
-    fetchBooks();
-  }, [currentUserId]); // fetch on mount or userId change
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <div className='p-4'>

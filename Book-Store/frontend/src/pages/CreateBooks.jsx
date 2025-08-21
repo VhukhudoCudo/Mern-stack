@@ -14,20 +14,21 @@ const CreateBooks = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = () => {
-    const currentUserId = localStorage.getItem('userId'); // use correct userId
+    const currentUserId = localStorage.getItem('userId');
     const data = {
       title,
       author,
       publishYear,
-      owner: currentUserId, // send to backend
+      owner: currentUserId, // send owner
     };
+
     setLoading(true);
     axios
       .post('https://book-store-backend-r1ee.onrender.com/books', data)
       .then(() => {
         setLoading(false);
         enqueueSnackbar('Book Created successfully', { variant: 'success' });
-        navigate('/'); // go to Home to see the book
+        navigate('/');
       })
       .catch((error) => {
         setLoading(false);
@@ -57,7 +58,7 @@ const CreateBooks = () => {
             type='text'
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
+            className='border-2 border-gray-500 px-4 py-2  w-full '
           />
         </div>
         <div className='my-4'>
@@ -66,7 +67,7 @@ const CreateBooks = () => {
             type='number'
             value={publishYear}
             onChange={(e) => setPublishYear(e.target.value)}
-            className='border-2 border-gray-500 px-4 py-2 w-full'
+            className='border-2 border-gray-500 px-4 py-2  w-full '
           />
         </div>
         <button className='p-2 bg-sky-300 m-8' onClick={handleSaveBook}>
