@@ -14,14 +14,11 @@ const CreateBooks = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = () => {
-    const currentUserId = localStorage.getItem('userId');
     const data = {
       title,
       author,
       publishYear,
-      owner: currentUserId, // send owner
     };
-
     setLoading(true);
     axios
       .post('https://book-store-backend-r1ee.onrender.com/books', data)

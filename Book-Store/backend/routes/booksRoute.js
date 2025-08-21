@@ -20,7 +20,6 @@ router.post("/", async (request, response) => {
         title: request.body.title,
         author: request.body.author,
         publishYear: request.body.publishYear,
-        owner: request.body.owner, // add owner safely
       };
   
       const book = await Book.create(newBook);
