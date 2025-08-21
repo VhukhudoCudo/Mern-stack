@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Spinner from "../components/Spinner";
 import { Link } from 'react-router-dom';
-import { AiOutlineEdit } from 'react-icons/ai';
-import { BsInfoCircle } from 'react-icons/bs';
-import { MdOutlineAddBox, MdOutlineDelete } from 'react-icons/md';
+import { MdOutlineAddBox } from 'react-icons/md';
 import BooksTable from "../components/home/BooksTable";
 import BooksCard from "../components/home/BooksCard";
 
@@ -13,19 +11,25 @@ const Home = () => {
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState('table');
 
+  // Simulate current user ID (replace with actual user ID if you have auth)
+  const currentUserId = localStorage.getItem('userId') || 'default-user';
+
   useEffect(() => {
     setLoading(true);
     axios
       .get('https://book-store-backend-r1ee.onrender.com/books')
       .then((response) => {
-        setBooks(response.data.data);
+        const allBooks = response.data.data;
+        // Filter books to only include those belonging to the current user
+        const userBooks = allBooks.filter(book => book.owner === currentUserId);
+        setBooks(userBooks);
         setLoading(false);
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
       });
-  }, []);
+  }, [currentUserId]);
 
   return (
     <div className='p-4'>

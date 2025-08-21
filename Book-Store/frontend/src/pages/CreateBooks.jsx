@@ -5,7 +5,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 
-
 const CreateBooks = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -14,11 +13,15 @@ const CreateBooks = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
+  // Simulate current user ID (replace with actual user ID if you have auth)
+  const currentUserId = localStorage.getItem('userId') || 'default-user';
+
   const handleSaveBook = () => {
     const data = {
       title,
       author,
       publishYear,
+      owner: currentUserId, // Added owner field
     };
     setLoading(true);
     axios
@@ -30,7 +33,6 @@ const CreateBooks = () => {
       })
       .catch((error) => {
         setLoading(false);
-        // alert('An error happened. Please Chack console');
         enqueueSnackbar('Error', { variant: 'error' });
         console.log(error);
       });
