@@ -14,25 +14,31 @@ const CreateBooks = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleSaveBook = () => {
-    const data = { title, author, publishYear };
+    console.log("🔹 Inputs:", { title, author, publishYear });
 
-    console.log("🔹 Save button clicked");
-    console.log("🔹 Data being sent:", data);
+    // Validation: check for empty fields
+    if (!title || !author || !publishYear) {
+      enqueueSnackbar("Please fill in all fields", { variant: "warning" });
+      return;
+    }
+
+    const data = { title, author, publishYear };
+    console.log("🔹 Sending data:", data);
 
     setLoading(true);
 
     axios
       .post("https://book-store-backend-r1ee.onrender.com/books", data)
       .then((res) => {
-        console.log("🔹 Response received:", res.data); // backend response
+        console.log("🔹 Response received:", res.data);
         setLoading(false);
         enqueueSnackbar("Book Created successfully", { variant: "success" });
         navigate("/");
       })
       .catch((error) => {
         setLoading(false);
-        console.error("❌ POST request error:", error); // log error
-        enqueueSnackbar("Error", { variant: "error" });
+        console.error("❌ POST request error:", error);
+        enqueueSnackbar("Error saving book", { variant: "error" });
       });
   };
 
@@ -40,7 +46,7 @@ const CreateBooks = () => {
     <div className='p-4'>
       <BackButton />
       <h1 className='text-3xl my-4'>Create Book</h1>
-      {loading ? <Spinner /> : null}
+      {loading && <Spinner />}
       <div className='flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto'>
         <div className='my-4'>
           <label className='text-xl mr-4 text-gray-500'>Title</label>
@@ -49,6 +55,7 @@ const CreateBooks = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className='border-2 border-gray-500 px-4 py-2 w-full'
+            placeholder="Enter book title"
           />
         </div>
         <div className='my-4'>
@@ -58,6 +65,7 @@ const CreateBooks = () => {
             value={author}
             onChange={(e) => setAuthor(e.target.value)}
             className='border-2 border-gray-500 px-4 py-2 w-full'
+            placeholder="Enter author name"
           />
         </div>
         <div className='my-4'>
@@ -67,6 +75,7 @@ const CreateBooks = () => {
             value={publishYear}
             onChange={(e) => setPublishYear(e.target.value)}
             className='border-2 border-gray-500 px-4 py-2 w-full'
+            placeholder="Enter publish year"
           />
         </div>
         <button
